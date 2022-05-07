@@ -1,0 +1,104 @@
+//Drawing == legendary
+    if(!search(root, find))//not in thing print null
+    {
+      return false;
+    }
+    if(root == null)//base case(even though no recursion)
+    {
+      return false;
+    }
+    else
+    {
+      TreeNode current = root;
+      TreeNode previous = current;
+      //if it is found, oh boy there is A LOT of logic
+      while(find.compareTo(current.getValue()) != 0)//moves until it reaches value
+      {
+        if(find.compareTo(current.getValue()) > 0)
+        {
+          current = current.getRight();
+        }
+        else
+        {
+          current = current.getLeft();
+        }
+      }
+      //First I have to check to see if left and right are null because then it has zero children
+      if(current.getLeft() == null && current.getRight() == null)
+      {
+        //ok so if current its the root, we have to set it too null
+        if(current == root){
+          root = null;
+          return true;
+        }
+        //ok so if previous's left is equal to the deletion value, then set it to null
+        else if(previous.getLeft() == current){
+          previous.setLeft(null);
+          return true;
+        }
+        //previous's right
+        else{
+          previous.setRight(null);
+          return true;
+        }
+      }
+      //now i shall check to see if they are both not null. Obviously we must do that one rule where if they both null, then it's an or statement
+      else if(current.getLeft() != null || current.getRight() != null)
+      {
+        //This checks to see if the tree has two children
+        //I have to find the largest value on the side soooo let's set a fake TreeNode 
+        //Hey man I think this name convention is very creative idk about yall
+        TreeNode biggestFake = current.getLeft();
+        previous = current;//we gotta set the previous one to the node that current is on
+        //now I need ot move right
+        while(biggestFake != null)//I don't want this to actually become null, I don't wanna go out of bounds
+        {
+          previous = biggestFake; //sets it to node before the temporary
+          biggestFake = biggestFake.getRight();//Biggest left value is this method here
+        }
+        current.setValue(biggestFake.getValue());//setting current to biggestFake
+        if(previous == current)//have to set the left side to the curernt
+        {
+          previous.setLeft(current.getLeft());
+        }
+        //else it just sets to the left
+        else{
+          previous.setRight(current.getRight());
+        }
+        return true;
+      }
+      //now I gotta check for a 1 child test case
+      //same logic as when both null except we switch it to left
+      else if(current.getLeft() != null && current.getRight() == null){
+        if(current == root){
+          root = root.getLeft();
+          return true;
+        }
+        //ok so if previous's left is equal to the deletion value, then set it to null
+        else if(previous.getLeft() == current){
+          previous.setLeft(current.getLeft());
+          return true;
+        }
+        //previous's right
+        else{
+          previous.setRight(current.getLeft());
+          return true;
+        }
+      }
+      else{
+        if(current == root){
+          root = root.getRight();
+          return true;
+        }
+        //ok so if previous's left is equal to the deletion value, then set it to null
+        else if(previous.getLeft() == current){
+          previous.setLeft(current.getRight());
+          return true;
+        }
+        //previous's right
+        else{
+          previous.setRight(current.getRight());
+          return true;
+        }
+      }
+    } 
