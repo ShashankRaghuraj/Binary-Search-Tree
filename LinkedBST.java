@@ -7,8 +7,7 @@ public class LinkedBST
   private TreeNode root;
   public LinkedBST()
   {
-    root= null; //Mr Mkeen Said you get the point for this but to rename it root
-    //Must always need a funstructor
+    root= null; 
   }
   public boolean addNode(Comparable addMe)
   {
